@@ -16,6 +16,7 @@ public class Employee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "employee_no")
+	@Schema(description = "Auto-generated employee number", example = "1001", accessMode = Schema.AccessMode.READ_ONLY)
 	private Long employeeNo;
 
 	@NotBlank
@@ -23,22 +24,28 @@ public class Employee {
 	private String title;
 
 	@NotBlank
+	@Schema(example = "John")
 	private String firstname;
 
 	@NotBlank
+	@Schema(example = "Doe")
 	private String surname;
 
 	@NotNull
+	@Schema(example = "1995-05-10")
 	private LocalDate dob;
 
 	@NotBlank
+	@Schema(example = "Male")
 	private String gender;
 
 	@Email
 	@NotBlank
+	@Schema(example = "john.doe@email.com")
 	private String email;
 
 	@NotBlank
+	@Schema(example = "Manila, Philippines")
 	private String address;
 
 	public Employee(String title, String firstname, String surname, LocalDate dob, String gender, String email,
