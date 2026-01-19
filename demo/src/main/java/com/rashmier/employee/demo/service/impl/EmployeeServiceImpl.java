@@ -62,6 +62,26 @@ public class EmployeeServiceImpl implements BaseCRUDService<EmployeeDTO, Long, E
 
     @Override
     public CustomApiResponse<EmployeeDTO> update(Long id, EmployeeDTO dto) {
+
+        return employeeRepository.findById(id)
+                .map(existing -> {
+                    existing.setTitle(dto.getTitle());
+                    existing.setFirstname(dto.getFirstname());
+                    existing.setSurname(dto.getSurname());
+                    existing.setDob(dto.getDob());
+                    existing.setGender(dto.getGender());
+                    existing.setEmail(dto.getEmail());
+                    existing.setAddress(dto.getAddress());
+
+                    Employee updated = employeeRepository.save(existing);
+
+                    return CustomApiResponse.success(
+                            "Employee updated successfully",
+                            EmployeeMapper.toDTO(updated));
+                })
+                .orElse(CustomApiResponse.error(
+                        HttpStatus.NOT_FOUND,
+                        "Employee not found"));
     }
 
     @Override
