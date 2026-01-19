@@ -14,4 +14,21 @@ public class CustomApiResponse<T> {
         this.message = message;
         this.object = object;
     }
+
+    public int getCode() {
+        return code;
+    }
+
+    public HttpStatus getStatus() {
+        return status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public T getObject() {
+        return object;
+    }
+
 }
