@@ -66,6 +66,13 @@ public class EmployeeServiceImpl implements BaseCRUDService<EmployeeDTO, Long, E
 
     @Override
     public CustomApiResponse<Void> delete(Long id) {
+
+        if (!employeeRepository.existsById(id)) {
+            return CustomApiResponse.error(HttpStatus.NOT_FOUND, "Employee not found");
+        }
+
+        employeeRepository.deleteById(id);
+        return CustomApiResponse.success("Employee deleted successfully", null);
     }
     
     @Override
