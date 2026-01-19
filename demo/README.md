@@ -51,6 +51,7 @@ This project was built with the goal of keeping things simple, clean, and practi
 -Email verification endpoint. The /verifyEmail endpoint is designed for frontend form validation when the user leaves the email input field.
 - Generic service interface. A reusable CRUD service interface was used so the same structure can be applied to other entities in the future.
 - Swagger documentation included. This makes it easier to understand and test the API without extra tools.
+- Used Docker for Windows. Ensuring a consistent and isolated database environment, making setup faster and avoiding issues caused by differences in local machine configurations.
 
 ## Things to Improve
 
