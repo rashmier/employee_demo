@@ -80,5 +80,26 @@ public class EmployeeServiceImpl implements BaseCRUDService<EmployeeDTO, Long, E
     }
     
     public CustomApiResponse<Boolean> verifyEmail(String email) {
+
+        if (email == null || email.isBlank()) {
+            return CustomApiResponse.error(
+                    HttpStatus.BAD_REQUEST,
+                    "Email must not be empty"
+            );
+        }
+
+        boolean exists = employeeRepository.existsByEmail(email);
+
+        if (exists) {
+            return CustomApiResponse.error(
+                    HttpStatus.CONFLICT,
+                    "Email is already taken"
+            );
+        }
+
+        return CustomApiResponse.success(
+                "Email is valid and available",
+                true
+        );
     }
 }
