@@ -1,5 +1,6 @@
 package com.rashmier.employee.demo.controller.api;
 
+import org.springframework.http.HttpStatus;
 
 public class CustomApiResponse<T> {
 
@@ -31,4 +32,15 @@ public class CustomApiResponse<T> {
         return object;
     }
 
+    public static <T> CustomApiResponse<T> success(String message, T object) {
+        return new CustomApiResponse<>(HttpStatus.OK, message, object);
+    }
+
+    public static <T> CustomApiResponse<T> created(String message, T object) {
+        return new CustomApiResponse<>(HttpStatus.CREATED, message, object);
+    }
+
+    public static <T> CustomApiResponse<T> error(HttpStatus status, String message) {
+        return new CustomApiResponse<>(status, message, null);
+    }
 }
