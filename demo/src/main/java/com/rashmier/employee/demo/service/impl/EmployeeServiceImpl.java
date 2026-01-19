@@ -97,6 +97,58 @@ public class EmployeeServiceImpl implements BaseCRUDService<EmployeeDTO, Long, E
     
     @Override
     public CustomApiResponse<EmployeeDTO> patch(Long id, EmployeePatchDTO dto) {
+
+        var optionalEmployee = employeeRepository.findById(id);
+
+        if (optionalEmployee.isEmpty()) {
+            return CustomApiResponse.error(
+                    HttpStatus.NOT_FOUND,
+                    "Employee not found"
+            );
+        }
+
+        Employee existing = optionalEmployee.get();
+
+        if (dto.getTitle() != null) {
+            existing.setTitle(dto.getTitle());
+        }
+
+        if (dto.getFirstname() != null) {
+            existing.setFirstname(dto.getFirstname());
+        }
+
+        if (dto.getSurname() != null) {
+            existing.setSurname(dto.getSurname());
+        }
+
+        if (dto.getDob() != null) {
+            existing.setDob(dto.getDob());
+        }
+
+        if (dto.getGender() != null) {
+            existing.setGender(dto.getGender());
+        }
+
+        if (dto.getEmail() != null) {
+            if (employeeRepository.existsByEmail(dto.getEmail())) {
+                return CustomApiResponse.error(
+                        HttpStatus.CONFLICT,
+                        "Email already exists"
+                );
+            }
+            existing.setEmail(dto.getEmail());
+        }
+
+        if (dto.getAddress() != null) {
+            existing.setAddress(dto.getAddress());
+        }
+
+        Employee updated = employeeRepository.save(existing);
+
+        return CustomApiResponse.success(
+                "Employee updated successfully",
+                EmployeeMapper.toDTO(updated)
+        );
     }
     
     public CustomApiResponse<Boolean> verifyEmail(String email) {
@@ -105,6 +157,14 @@ public class EmployeeServiceImpl implements BaseCRUDService<EmployeeDTO, Long, E
             return CustomApiResponse.error(
                     HttpStatus.BAD_REQUEST,
                     "Email must not be empty"
+            );
+        }
+
+        // simple regex check (frontend still validates too)
+        if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            return CustomApiResponse.error(
+                    HttpStatus.BAD_REQUEST,
+                    "Invalid email format"
             );
         }
 
