@@ -51,6 +51,13 @@ public class EmployeeServiceImpl implements BaseCRUDService<EmployeeDTO, Long, E
 
     @Override
     public CustomApiResponse<List<EmployeeDTO>> findAll() {
+
+        List<EmployeeDTO> list = employeeRepository.findAll()
+                .stream()
+                .map(EmployeeMapper::toDTO)
+                .collect(Collectors.toList());
+
+        return CustomApiResponse.success("Employee list retrieved", list);
     }
 
     @Override
